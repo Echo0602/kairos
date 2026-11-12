@@ -112,7 +112,7 @@ export function TodayView() {
             <div className="small muted" style={{ marginTop: 4 }}>
               已完成 {stats.done} / {stats.total} 项 · 连续 {streak} 天
             </div>
-            <div className="row" style={{ gap: 8, marginTop: 12 }}>
+            <div className="row" style={{ gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
               <button className="btn small" onClick={exportPlan}>
                 <Icon name="image" size={14} />
                 导出计划

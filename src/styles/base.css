@@ -142,6 +142,7 @@ h3 {
   border: 1px solid var(--border);
   font-weight: 550;
   font-size: 14px;
+  white-space: nowrap;
   transition: transform 0.1s, background 0.15s, opacity 0.15s;
 }
 
