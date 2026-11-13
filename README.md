@@ -2,6 +2,11 @@
 
 > 别错过任何一件重要的事。
 
+> **English** — Kairos is a local-first to-do & daily planner PWA with three layers of
+> reminders (system-calendar `.ics` export, persistent banner, full-screen alarm).
+> No account, no server: all data stays in your own browser.
+> Live demo: <https://echo0602.github.io/kairos/>
+
 一个**纯本地**的待办与每日计划 PWA。为「明明列了待办却还是忘记去上课」这件事而做：
 把提醒做成三层保险，让你没有任何机会悄悄错过。
 
@@ -33,7 +38,7 @@ App 可以被关掉。知时把提醒做成三层，任何一层漏了还有下�
 **每日计划与完成度**
 - 今天该做的事自动汇总：当天发生的事件 + 到期与逾期的任务 + 手动加的临时项
 - 点一下圆圈即完成，完成度环形进度实时变化
-- 可前后翻日期补看任意一天
+- 可前后翻日期补看任意一天；点日期标题展开月历，有安排的日子带小点，点一天直接跳过去
 
 **导出与督促**
 - 列计划前导出「今日计划」图片；一天结束导出「今日完成报告」图片（完成度、已完成数、连续天数）

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { EntryRow } from '@/components/EntryRow'
 import { Icon } from '@/components/Icon'
+import { MonthPicker } from '@/components/MonthPicker'
 import { NextBanner } from '@/components/NextBanner'
 import { ProgressRing } from '@/components/ProgressRing'
 import { SharePreview } from '@/components/SharePreview'
@@ -19,6 +20,7 @@ export function TodayView() {
   const toast = useToast()
   const today = todayKey()
   const [dateKey, setDateKey] = useState(today)
+  const [pickerOpen, setPickerOpen] = useState(false)
   const [quick, setQuick] = useState('')
   const [editing, setEditing] = useState<Todo | null | 'new'>(null)
   const [preview, setPreview] = useState<{ url: string; name: string } | null>(null)
@@ -92,9 +94,17 @@ export function TodayView() {
         <button className="icon-btn" onClick={() => setDateKey(addDaysKey(dateKey, -1))} aria-label="前一天">
           <Icon name="chevron-left" />
         </button>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontWeight: 650, fontSize: 16 }}>{fmtDateZh(dateKey)}</div>
-          {dateKey !== today && (
+        <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+          <button
+            className="btn ghost small"
+            style={{ fontSize: 15, fontWeight: 650 }}
+            aria-expanded={pickerOpen}
+            onClick={() => setPickerOpen((v) => !v)}
+          >
+            <Icon name="calendar" size={14} />
+            {fmtDateZh(dateKey)}
+          </button>
+          {dateKey !== today && !pickerOpen && (
             <button className="btn ghost small" onClick={() => setDateKey(today)}>
               回到今天
             </button>
@@ -104,6 +114,18 @@ export function TodayView() {
           <Icon name="chevron-right" />
         </button>
       </div>
+
+      {pickerOpen && (
+        <MonthPicker
+          todos={store.todos}
+          items={store.items}
+          selected={dateKey}
+          onPick={(key) => {
+            setDateKey(key)
+            setPickerOpen(false)
+          }}
+        />
+      )}
 
       <div className="card">
         <div className="row">

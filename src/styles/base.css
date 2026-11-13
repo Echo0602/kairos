@@ -672,6 +672,73 @@ h3 {
   transform: translateX(19px);
 }
 
+/* ---------- 月历选择器 ---------- */
+
+.mp {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mp-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mp-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.mp-wd,
+.mp-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  padding: 0;
+}
+
+.mp-wd {
+  height: 24px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.mp-day {
+  height: 42px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.mp-day.today {
+  box-shadow: inset 0 0 0 1.5px var(--accent);
+}
+
+.mp-day.sel {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-weight: 650;
+}
+
+.mp-day .dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.mp-day.sel .dot {
+  background: var(--accent-contrast);
+}
+
 /* ---------- 动画 ---------- */
 
 @keyframes fade-in {
