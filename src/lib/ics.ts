@@ -81,9 +81,23 @@ export function buildIcs(todos: Todo[]): string {
   return `${lines.map(fold).join('\r\n')}\r\n`
 }
 
-export function downloadIcs(filename: string, todos: Todo[]): void {
+/** 优先弹系统分享面板（可直接选「日历」导入），不支持时回退为下载文件。 */
+export async function shareOrDownloadIcs(
+  filename: string,
+  todos: Todo[],
+): Promise<'shared' | 'downloaded' | 'cancelled'> {
   const blob = new Blob([buildIcs(todos)], { type: 'text/calendar;charset=utf-8' })
+  const file = new File([blob], filename, { type: 'text/calendar' })
+  if (navigator.canShare?.({ files: [file] })) {
+    try {
+      await navigator.share({ files: [file], title: APP.nameZh })
+      return 'shared'
+    } catch (e) {
+      if (e instanceof DOMException && e.name === 'AbortError') return 'cancelled'
+    }
+  }
   downloadBlob(filename, blob)
+  return 'downloaded'
 }
 
 export function downloadBlob(filename: string, blob: Blob): void {

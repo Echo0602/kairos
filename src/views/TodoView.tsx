@@ -6,7 +6,7 @@ import { REPEAT_LABEL } from '@/config'
 import { useStore } from '@/data/store'
 import type { Todo } from '@/data/types'
 import { addDaysKey, expandEventOccurrences, fmtDateZh, fmtTime, taskDueTs, todayKey } from '@/lib/date'
-import { downloadIcs } from '@/lib/ics'
+import { shareOrDownloadIcs } from '@/lib/ics'
 
 type Filter = 'all' | 'event' | 'task' | 'archived'
 
@@ -50,9 +50,11 @@ export function TodoView() {
           className="btn"
           style={{ flex: 1 }}
           disabled={exportable.length === 0}
-          onClick={() => {
-            downloadIcs(`kairos-${today}.ics`, exportable)
-            toast(`已导出 ${exportable.length} 条到日历文件，打开即可导入系统日历`)
+          onClick={async () => {
+            const result = await shareOrDownloadIcs(`kairos-${today}.ics`, exportable)
+            if (result === 'shared') toast('在分享面板中选择「日历」即完成导入')
+            else if (result === 'downloaded')
+              toast(`已下载 ${exportable.length} 条日历文件，到「下载/文件」中点开它导入系统日历`)
           }}
         >
           <Icon name="calendar" size={16} />
