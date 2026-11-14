@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { EntryRow } from '@/components/EntryRow'
 import { Icon } from '@/components/Icon'
+import { ItemEditor } from '@/components/ItemEditor'
 import { MonthPicker } from '@/components/MonthPicker'
 import { NextBanner } from '@/components/NextBanner'
 import { ProgressRing } from '@/components/ProgressRing'
@@ -9,7 +10,7 @@ import { TodoEditor } from '@/components/TodoEditor'
 import { useToast } from '@/hooks/toast'
 import { DEFAULTS } from '@/config'
 import { useStore } from '@/data/store'
-import type { Todo } from '@/data/types'
+import type { DayItem, Todo } from '@/data/types'
 import { addDaysKey, fmtDateZh, fmtTimeRange, todayKey } from '@/lib/date'
 import { buildPlan, entryDone, entryTitle, planStats } from '@/lib/plan'
 import { renderCard, type CardLine } from '@/lib/sharecard'
@@ -23,6 +24,7 @@ export function TodayView() {
   const [pickerOpen, setPickerOpen] = useState(false)
   const [quick, setQuick] = useState('')
   const [editing, setEditing] = useState<Todo | null | 'new'>(null)
+  const [editingItem, setEditingItem] = useState<DayItem | null>(null)
   const [preview, setPreview] = useState<{ url: string; name: string } | null>(null)
 
   const entries = useMemo(
@@ -178,7 +180,7 @@ export function TodayView() {
             key={e.id}
             entry={e}
             onToggle={() => void store.toggleEntry(e)}
-            onEdit={e.type === 'item' ? undefined : () => setEditing(e.todo)}
+            onEdit={e.type === 'item' ? () => setEditingItem(e.item) : () => setEditing(e.todo)}
           />
         ))
       )}
@@ -191,6 +193,14 @@ export function TodayView() {
           onSave={store.saveTodo}
           onDelete={store.removeTodo}
           onClose={() => setEditing(null)}
+        />
+      )}
+      {editingItem && (
+        <ItemEditor
+          initial={editingItem}
+          onSave={store.updateItem}
+          onDelete={store.removeItem}
+          onClose={() => setEditingItem(null)}
         />
       )}
       {preview && <SharePreview dataUrl={preview.url} filename={preview.name} onClose={() => setPreview(null)} />}

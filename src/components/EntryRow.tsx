@@ -41,7 +41,7 @@ export function EntryRow({
       )
     }
   } else {
-    meta.push(<span key="i">今日临时计划</span>)
+    meta.push(<span key="i">临时计划</span>)
   }
 
   if (entry.type !== 'item') {
